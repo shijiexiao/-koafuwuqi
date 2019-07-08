@@ -3,7 +3,7 @@ const request = require('request-promise')
 const base = 'https://api.weixin.qq.com/cgi-bin/'
 const mpBase = 'https://mp.weixin.qq.com/cgi-bin/'
 const semanticUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?'
-const defaultToken='23_hEjjuKZCJfFIKxVBMAgxOmTZcQWdVLKzWw-YZ-82ec1pqlwB8k1loCz2qkz0qJT1OBvfMmwSgr8eAg1pEpXBLZm2HN8B7MfrDMYDduy-_Y3Rle_IiOLYlFt_71CAmaphrUw_kq8l2fD9v2PjPAFgACASDI'
+const defaultToken='23_q38Di0QgmcK3v_RKZ6IdLGgC4faW8mgme_sqCiXnDyYhe6Ewut7ty0yQ_JFnp8e7zgycz0LDywoYB9XsXukMUg9ATR7hvWvcAojooio_xklPvgNd1dOQWaqAD4LqvAgVc-kw4sz51cWT_b2UORXcAJAZCI'
 const api = {
     semanticUrl,
     accessToken: base + 'token?grant_type=client_credential',
