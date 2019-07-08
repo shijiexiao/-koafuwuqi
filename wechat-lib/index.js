@@ -59,7 +59,6 @@ const api = {
         custom: base + 'menu/addconditional?',
         fetch: base + 'menu/get?'
     },
-
     ticket: {
         get: base + 'ticket/getticket?'
     }
@@ -452,6 +451,7 @@ module.exports = class Wechat {
         return {method: 'POST', url, body}
     }
 
+
     // 创建菜单和自定义菜单
     createMenu (token, menu, rules) {
         let url = api.menu.create + 'access_token=' + token
@@ -464,16 +464,18 @@ module.exports = class Wechat {
         return { method: 'POST', url, body: menu }
     }
 
-    deleteMenu(token) {
+    // 删除菜单
+    deleteMenu (token) {
         const url = api.menu.del + 'access_token=' + token
-        return {url}
 
+        return { url }
     }
 
-    fetchMenu(token)
-    {
+    // 获取菜单
+    fetchMenu (token) {
         const url = api.menu.fetch + 'access_token=' + token
-        return {url}
+
+        return { url }
     }
 
 }

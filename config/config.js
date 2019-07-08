@@ -6,5 +6,6 @@ module.exports = {
         appSecret: '071e1ed96a5c2ef97f6fb42b4af65ec0',
         token: 'jiegeisareallyamazingplcaetolearn'
 
-    }
+    },
+    baseUrl:'http://jiege.free.idcfengye.com/'
 }

@@ -19,9 +19,7 @@ exports.reply = async (ctx, next) => {
     //yu ying wenben
     if (message.MsgType === 'image') {
         console.log(message.PicUrl)
-    }
-
-    else if (message.MsgType === 'event') {
+    } else if (message.MsgType === 'event') {
         let reply = ''
         if (message.Event === 'subscribe') {
             reply = '欢迎订阅' + '！ '
@@ -31,22 +29,19 @@ exports.reply = async (ctx, next) => {
             } else {
                 reply = help
             }
+        } else if (message.Event === 'unsubscribe') {
+            reply = 'wuqing quxiao ding yue'
         } else if (message.Event === 'SCAN') {
             console.log('关注后扫二维码' + '！ 扫码参数' + message.EventKey + '_' + message.ticket)
 
-        }
-        if (message.Event === 'unsubscribe') {
-            reply = 'wuqing quxiao ding yue'
-        }
-        else if (message.Event === 'LOCATION') {
+        } else if (message.Event === 'LOCATION') {
             console.log(`您上报的位置是：${message.Latitude}-${message.Longitude}-${message.Precision}`)
 
         } else if (message.Event === 'CLICK') {
             console.log('你点击了菜单的： ' + message.EventKey)
 
 
-        }
-        else if (message.Event === 'VIEW') {
+        } else if (message.Event === 'VIEW') {
             console.log('你点击了菜单链接： ' + message.EventKey + ' ' + message.MenuId)
         } else if (message.Event === 'scancode_push') {
             console.log('你扫码了： ' + message.ScanCodeInfo.ScanType + ' ' + message.ScanCodeInfo.ScanResult)
@@ -367,7 +362,7 @@ exports.reply = async (ctx, next) => {
 
         } else if (content === '20') {
             try {
-          //   let delData = await client.handle('deleteMenu')
+                //   let delData = await client.handle('deleteMenu')
                 let menu = {
                     button: [
                         {
