@@ -25,18 +25,18 @@ exports.connect = (db) => {
         mongoose.connection.on('open', () => {
             resolve()
             console.log('mongodb connected');
-            var schema = new mongoose.Schema({
-                username: "string",
-                password: "number"
-            });
-            var Model = mongoose.model('Model', schema);
-            var doc1 = new Model({
-                username: "admin",
-                password: 123456
-            });
-            console.log(doc1)
-            doc1.save();
-            console.log('mongodb saved');
+            // var schema = new mongoose.Schema({
+            //     username: "string",
+            //     password: "number"
+            // });
+            // var Model = mongoose.model('Model', schema);
+            // var doc1 = new Model({
+            //     username: "admin",
+            //     password: 123456
+            // });
+            // console.log(doc1)
+            // doc1.save();
+            // console.log('mongodb saved');
 
 
         })

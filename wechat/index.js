@@ -33,12 +33,5 @@ const wechatCfg = {
     }
 }
 
-exports.WechatClientClassAndDb = async () => {
-    const clients = new Wechat(wechatCfg.wechat);
-    console.log('data in db')
 
-    const data = await clients.fetchAccessToken();
-
-
-}
 exports.getWechat = () => new Wechat(wechatCfg.wechat)

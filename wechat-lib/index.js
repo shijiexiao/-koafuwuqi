@@ -3,7 +3,7 @@ const request = require('request-promise')
 const base = 'https://api.weixin.qq.com/cgi-bin/'
 const mpBase = 'https://mp.weixin.qq.com/cgi-bin/'
 const semanticUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?'
-const defaultToken='23_q38Di0QgmcK3v_RKZ6IdLGgC4faW8mgme_sqCiXnDyYhe6Ewut7ty0yQ_JFnp8e7zgycz0LDywoYB9XsXukMUg9ATR7hvWvcAojooio_xklPvgNd1dOQWaqAD4LqvAgVc-kw4sz51cWT_b2UORXcAJAZCI'
+const defaultToken = '23_q38Di0QgmcK3v_RKZ6IdLGgC4faW8mgme_sqCiXnDyYhe6Ewut7ty0yQ_JFnp8e7zgycz0LDywoYB9XsXukMUg9ATR7hvWvcAojooio_xklPvgNd1dOQWaqAD4LqvAgVc-kw4sz51cWT_b2UORXcAJAZCI'
 const api = {
     semanticUrl,
     accessToken: base + 'token?grant_type=client_credential',
@@ -67,7 +67,7 @@ const api = {
 
 
 module.exports = class Wechat {
-    constructor (opts) {
+    constructor(opts) {
         this.opts = Object.assign({}, opts)
         this.appID = opts.appID
         this.appSecret = opts.appSecret
@@ -79,8 +79,8 @@ module.exports = class Wechat {
         this.fetchAccessToken()
     }
 
-    async request (options) {
-        options = Object.assign({}, options, { json: true })
+    async request(options) {
+        options = Object.assign({}, options, {json: true})
 
         try {
             const res = await request(options)
@@ -94,24 +94,26 @@ module.exports = class Wechat {
     // 1. 首先检查数据库里的 token 是否过期
     // 2. 过期则刷新
     // 3. token 入库
-    async fetchAccessToken () {
+    async fetchAccessToken() {
         let data = await this.getAccessToken()
 
         if (!this.isValid(data, 'access_token')) {
             data = await this.updateAccessToken()
         }
 
-        await this.saveAccessToken(data)
+
+            await this.saveAccessToken(data)
+
         console.log('fetchAccessToken');
         console.log(data);
         return data
     }
 
     // 获取 token
-    async updateAccessToken () {
+    async updateAccessToken() {
         const url = `${api.accessToken}&appid=${this.appID}&secret=${this.appSecret}`
 
-        const data = await this.request({ url })
+        const data = await this.request({url})
         const now = new Date().getTime()
         const expiresIn = now + (data.expires_in - 20) * 1000
 
@@ -122,7 +124,7 @@ module.exports = class Wechat {
         return data
     }
 
-    async fetchTicket (token) {
+    async fetchTicket(token) {
         let data = await this.getTicket()
 
         if (!this.isValid(data, 'ticket')) {
@@ -137,10 +139,10 @@ module.exports = class Wechat {
     }
 
     // 获取 token
-    async updateTicket (token) {
+    async updateTicket(token) {
         const url = `${api.ticket.get}access_token=${token}&type=jsapi`
 
-        const data = await this.request({ url })
+        const data = await this.request({url})
         const now = new Date().getTime()
         const expiresIn = now + (data.expires_in - 20) * 1000
 
@@ -151,10 +153,8 @@ module.exports = class Wechat {
         return data
     }
 
-    isValid (data, name) {
-        if (!data || !data[name].expires_in) {
-            return false
-        }
+    isValid(data, name) {
+
 
         const expiresIn = data.expires_in
         const now = new Date().getTime()
@@ -166,7 +166,7 @@ module.exports = class Wechat {
         }
     }
 
-    uploadMaterial (token, type, material, permanent = false) {
+    uploadMaterial(token, type, material, permanent = false) {
         let form = {}
         let url = api.temporary.upload
 
@@ -438,19 +438,42 @@ module.exports = class Wechat {
     }
 
 //语义理解-查询特定的语句理解进行分析
-    semantic (token=defaultToken, semanticData) {
+    semantic(token = defaultToken, semanticData) {
         const url = api.semanticUrl + 'access_token=' + token
         semanticData.appid = this.appID
 
-        return { method: 'POST', url, body: semanticData }
+        return {method: 'POST', url, body: semanticData}
     }
-    aiTranslate(token,body,lfrom,lto)
+
+    aiTranslate(token, body, lfrom, lto) {
+        const url = api.ai.translate + 'access_token=' + token
+            + '&lfrom=' + lfrom + '&lto=' + lto;
+
+        return {method: 'POST', url, body}
+    }
+
+    // 创建菜单和自定义菜单
+    createMenu (token, menu, rules) {
+        let url = api.menu.create + 'access_token=' + token
+
+        if (rules) {
+            url = api.menu.custom + 'access_token=' + token
+            menu.matchrule = rules
+        }
+
+        return { method: 'POST', url, body: menu }
+    }
+
+    deleteMenu(token) {
+        const url = api.menu.del + 'access_token=' + token
+        return {url}
+
+    }
+
+    fetchMenu(token)
     {
-        const url=api.ai.translate+'access_token='+token
-       +     '&lfrom='+lfrom+'&lto='+lto;
-
-        return {method:'POST',url,body}
+        const url = api.menu.fetch + 'access_token=' + token
+        return {url}
     }
-
 
 }

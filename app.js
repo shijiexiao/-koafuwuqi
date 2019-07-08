@@ -9,9 +9,7 @@ const {initSchemas ,connect} =require('./app/database/init')
     await connect(config.db)
     initSchemas()
    // 这是 token数据库存储
- const {WechatClientClassAndDb} =require('./wechat/index')
 
-  await  WechatClientClassAndDb()
     const app = new Koa();
   app.use(wechat(config.wechat,reply))
 
